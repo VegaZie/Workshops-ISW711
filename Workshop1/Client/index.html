@@ -4,26 +4,92 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Foreign exchange against the dollar and the euro</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #222222;
+          color: #ffffff;
+          margin: 0;
+          padding: 20px;
+        }
+    
+        table {
+          border-collapse: collapse;
+          width: 400px;
+          margin: 0 auto;
+          background-color: #333333;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          border-radius: 4px;
+        }
+    
+        th {
+          background-color: #555555;
+          text-align: left;
+          padding: 10px;
+        }
+    
+        td {
+          padding: 10px;
+        }
+    
+        select {
+          padding: 8px;
+          font-size: 16px;
+          border-radius: 4px;
+          border: none;
+          background-color: #444444;
+          color: #ffffff;
+          width: 100%;
+        }
+    
+        label {
+          font-weight: bold;
+          margin-top: 10px;
+          color: #ffffff;
+        }
+    
+        span {
+          font-weight: bold;
+          font-size: 18px;
+          color: #007bff;
+        }
+      </style>
   </head>
   <body>
-    <select
-      name="countries"
-      id="countries"
-      onchange="ExchangeCurrency()"
-    ></select>
-
-    <div>
-      <label>Exchange rate against the Dollar and the Euro</label>
-      <br />
-      <br />
-      <label>USD: </label>
-      <span id="dollarExc"></span>
-      <br />
-      <br />
-      <label>EUR: </label>
-      <span id="euroExc"></span>
-    </div>
+    <table>
+      <tr>
+        <th colspan="2">Exchange rate against the Dollar and the Euro</th>
+      </tr>
+      <tr>
+        <td>
+          <label for="countries">Select a country:</label>
+        </td>
+        <td>
+          <select
+            name="countries"
+            id="countries"
+            onchange="ExchangeCurrency()"
+          ></select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>USD:</label>
+        </td>
+        <td>
+          <span id="dollarExc"></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>EUR:</label>
+        </td>
+        <td>
+          <span id="euroExc"></span>
+        </td>
+      </tr>
+    </table>
 
     <script>
       const ajaxRequest = new XMLHttpRequest(); //AJAX
