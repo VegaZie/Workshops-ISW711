@@ -94,11 +94,11 @@
     <script>
       const ajaxRequest = new XMLHttpRequest(); //AJAX
       ajaxRequest.addEventListener("load", (e) => {
-        const countries = JSON.parse(e.target.responseText);
-        const paises = countries.paises;
-        paises.sort((x, y) => x.name.localeCompare(y.name));
+        const countriesList = JSON.parse(e.target.responseText);
+        const countries = countriesList.paises;
+        countries.sort((x, y) => x.name.localeCompare(y.name));
         let optionsHtml = "";
-        paises.forEach((country) => {
+        countries.forEach((country) => {
           optionsHtml += `<option value="${country.currency}">${country.name}</option>`;
         });
         document.getElementById("countries").innerHTML = optionsHtml;
@@ -114,8 +114,7 @@
 
         const ajaxRequest1 = new XMLHttpRequest(); //AJAX
         ajaxRequest1.addEventListener("load", (e) => {
-          const currenciesList = JSON.parse(e.target.responseText);
-          const currencies = currenciesList[currency];
+          const currencies = JSON.parse(e.target.responseText)[currency];
 
           document.getElementById("dollarExc").innerHTML = currencies["usd"];
           document.getElementById("euroExc").innerHTML = currencies["eur"];
