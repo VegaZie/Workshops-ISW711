@@ -6,69 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tabla de Cursos</title>
     <style>
-       body {
-      font-family: Arial, sans-serif;
-    }
+      body {
+        font-family: Arial, sans-serif;
+      }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
 
-    th,
-    td {
-      padding: 12px 16px;
-      text-align: left;
-    }
+      th,
+      td {
+        padding: 12px 16px;
+        text-align: left;
+      }
 
-    th {
-      background-color: #f2f2f2;
-      font-weight: bold;
-    }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
 
-    td {
-      border-bottom: 1px solid #ddd;
-    }
+      td {
+        border-bottom: 1px solid #ddd;
+      }
 
-    button {
-      padding: 8px 16px;
-      font-size: 14px;
-      border: none;
-      background-color: #4caf50;
-      color: #fff;
-      cursor: pointer;
-    }
+      button {
+        padding: 8px 16px;
+        font-size: 14px;
+        border: none;
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+      }
 
-    button:hover {
-      background-color: #45a049;
-    }
+      button:hover {
+        background-color: #45a049;
+      }
 
-    .form-container {
-      width: 300px;
-      margin: 20px auto;
-    }
+      .form-container {
+        width: 300px;
+        margin: 20px auto;
+      }
 
-    .form-group {
-      margin-bottom: 10px;
-    }
+      .form-group {
+        margin-bottom: 10px;
+      }
 
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+      .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
 
-    .form-group input {
-      width: 100%;
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #ddd;
-    }
+      .form-group input {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+      }
 
-    .form-group button {
-      padding: 8px 16px;
-      font-size: 14px;
-    }
+      .form-group button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
     </style>
   </head>
   <body>
@@ -99,6 +99,21 @@
       <div class="form-group">
         <button id="createButton">Crear</button>
       </div>
+    </div>
+
+    <div>
+      <h1>Tabla de Profesores</h1>
+      <table id="teachersTable">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cédula</th>
+            <th>Id</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
 
     <script>
@@ -142,10 +157,10 @@
           const teacherCourse = document.createElement("input");
           teacherCourse.type = "text";
           if (course.teacher === undefined) {
-            teacherCourse.value = "Sin asignar"; // Usar 'value' en lugar de 'textContent'
+            teacherCourse.value = "Sin asignar"; 
           } else {
             teacherCourse.value =
-              course.teacher.first_name + " " + course.teacher.last_name; // Usar 'value' en lugar de 'textContent'
+              course.teacher.first_name + " " + course.teacher.last_name;
           }
           teacherCell.appendChild(teacherCourse);
           row.appendChild(teacherCell);
@@ -258,7 +273,13 @@
         // Obtener los valores actuales del curso
         const currentName = course.name;
         const currentCredits = course.credits;
-        const currentTeacher = course.teacher._id;
+        let currentTeacher;
+        if (course.teacher === undefined){
+          currentTeacher = "Sin profesor";
+        } else {
+          currentTeacher = course.teacher._id;
+        }
+
 
         // Crear un formulario para editar el curso
         const form = document.createElement("form");
@@ -302,6 +323,52 @@
         row.appendChild(cell);
       }
 
+      //Función para mostrar datos de los profesores para su asignación
+
+      function getTeachers() {
+        const ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.addEventListener("load", completed);
+        ajaxRequest.addEventListener("error", error);
+        ajaxRequest.open("GET", "http://localhost:3001/api/teachers");
+        ajaxRequest.send();
+      }
+
+      function completed() {
+        if (this.status === 200) {
+          const teachers = JSON.parse(this.responseText);
+          const tableBody = document.querySelector("#teachersTable tbody");
+
+          // Limpiar la tabla antes de agregar los datos
+          tableBody.innerHTML = "";
+
+          // Agregar cada profesor como una fila en la tabla
+          teachers.forEach(function (teacher) {
+            const row = document.createElement("tr");
+
+            const firstNameCell = document.createElement("td");
+            firstNameCell.textContent = teacher.first_name;
+            row.appendChild(firstNameCell);
+
+            const lastNameCell = document.createElement("td");
+            lastNameCell.textContent = teacher.last_name;
+            row.appendChild(lastNameCell);
+
+            const cedulaCell = document.createElement("td");
+            cedulaCell.textContent = teacher.cedula;
+            row.appendChild(cedulaCell);
+
+            const ageCell = document.createElement("td");
+            ageCell.textContent = teacher._id;
+            row.appendChild(ageCell);
+
+            tableBody.appendChild(row);
+          });
+        } else {
+          console.log("Error al obtener los profesores");
+        }
+      }
+
+      getTeachers();
       getCourses();
     </script>
   </body>
