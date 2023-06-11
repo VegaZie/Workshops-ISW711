@@ -157,7 +157,7 @@
           const teacherCell = document.createElement("td");
           const teacherCourse = document.createElement("input");
           teacherCourse.type = "text";
-          if (course.teacher === undefined) {
+          if (course.teacher === undefined || course.teacher === null) {
             teacherCourse.value = "Sin asignar"; 
           } else {
             teacherCourse.value =
