@@ -45,6 +45,28 @@ const courseGet = (req, res) => {
         console.log("error while queryting the course", err);
         res.json({ error: "Course doesnt exist" });
       });
+  } else if (req.query.sort === "asc") {
+    Course.find()
+      .populate("teacher")
+      .then((courses) => {
+        courses = courses.sort((a, b) => a.name.localeCompare(b.name));
+        res.json(courses);
+      })
+      .catch((err) => {
+        res.status(422);
+        res.json({ error: err });
+      });
+  } else if (req.query.sort === "desc") {
+    Course.find()
+      .populate("teacher")
+      .then((courses) => {
+        courses = courses.sort((a, b) => b.name.localeCompare(a.name));
+        res.json(courses);
+      })
+      .catch((err) => {
+        res.status(422);
+        res.json({ error: err });
+      });
   } else {
     // get all teachers
     Course.find()
