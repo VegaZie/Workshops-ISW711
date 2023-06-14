@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week 1 - Consume API</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      h1 {
+        margin-top: 0;
+      }
+      form {
+        max-width: 400px;
+        margin-top: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+      }
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <h1>Tabla de Profesores</h1>
+      <table id="teachersTable">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cédula</th>
+            <th>Edad</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div>
+      <h1>Crear Profesor</h1>
+      <form id="createTeacherForm">
+        <label for="firstNameInput">Nombre:</label>
+        <input type="text" id="firstNameInput" required />
+
+        <label for="lastNameInput">Apellido:</label>
+        <input type="text" id="lastNameInput" required />
+
+        <label for="cedulaInput">Cédula:</label>
+        <input type="text" id="cedulaInput" required />
+
+        <label for="ageInput">Edad:</label>
+        <input type="number" id="ageInput" required />
+
+        <input type="submit" value="Crear Profesor" />
+      </form>
+    </div>
+
+    <script>
+      /*function getHelloWorld() {
+        const ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.addEventListener("load", completed);
+        ajaxRequest.addEventListener("error", error);
+        ajaxRequest.open("GET", "http://localhost:3001/hello");
+        ajaxRequest.send();
+      }*/
+
+      function getTeachers() {
+        const ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.addEventListener("load", completed);
+        ajaxRequest.addEventListener("error", error);
+        ajaxRequest.open("GET", "http://localhost:3001/api/teachers");
+        ajaxRequest.send();
+      }
+
+      function completed() {
+        if (this.status === 200) {
+          const teachers = JSON.parse(this.responseText);
+          const tableBody = document.querySelector("#teachersTable tbody");
+
+          // Limpiar la tabla antes de agregar los datos
+          tableBody.innerHTML = "";
+
+          // Agregar cada profesor como una fila en la tabla
+          teachers.forEach(function (teacher) {
+            const row = document.createElement("tr");
+
+            const firstNameCell = document.createElement("td");
+            firstNameCell.textContent = teacher.first_name;
+            row.appendChild(firstNameCell);
+
+            const lastNameCell = document.createElement("td");
+            lastNameCell.textContent = teacher.last_name;
+            row.appendChild(lastNameCell);
+
+            const cedulaCell = document.createElement("td");
+            cedulaCell.textContent = teacher.cedula;
+            row.appendChild(cedulaCell);
+
+            const ageCell = document.createElement("td");
+            ageCell.textContent = teacher.age;
+            row.appendChild(ageCell);
+
+            tableBody.appendChild(row);
+          });
+        } else {
+          console.log("Error al obtener los profesores");
+        }
+      }
+
+      function error() {
+        console.log("Error en la solicitud");
+      }
+
+      const createTeacherForm = document.querySelector("#createTeacherForm");
+    createTeacherForm.addEventListener("submit", createTeacher);
+
+    function createTeacher(event) {
+      event.preventDefault();
+
+      const firstName = document.querySelector("#firstNameInput").value;
+      const lastName = document.querySelector("#lastNameInput").value;
+      const cedula = document.querySelector("#cedulaInput").value;
+      const age = document.querySelector("#ageInput").value;
+
+      const teacherData = {
+        first_name: firstName,
+        last_name: lastName,
+        cedula: cedula,
+        age: age
+      };
+
+      const ajaxRequest = new XMLHttpRequest();
+      ajaxRequest.addEventListener("load", createCompleted);
+      ajaxRequest.addEventListener("error", error);
+      ajaxRequest.open("POST", "http://localhost:3001/api/teachers");
+      ajaxRequest.setRequestHeader("Content-Type", "application/json");
+      ajaxRequest.send(JSON.stringify(teacherData));
+    }
+
+    function createCompleted() {
+      if (this.status === 201) {
+        console.log("Profesor creado exitosamente");
+        getTeachers;
+        // Realizar cualquier acción adicional después de crear el profesor
+      } else {
+        console.log("Error al crear el profesor");
+      }
+    }
+
+      // Llamar a la función getTeachers al cargar la página
+      getTeachers();
+    </script>
+  </body>
+</html>
