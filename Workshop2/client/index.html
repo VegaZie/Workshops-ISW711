@@ -73,6 +73,7 @@
   </head>
   <body>
     <div>
+      <h1>Tabla de Cursos</h1>
       <table id="coursesTable">
         <thead>
           <tr>
@@ -140,26 +141,23 @@
 
           // Crear celdas para cada propiedad del curso
           const nameCell = document.createElement("td");
-          const nameCourse = document.createElement("input");
-          nameCourse.type = "text";
-          nameCourse.value = course.name;
+          const nameCourse = document.createElement("label");
+          nameCourse.textContent = course.name;
           nameCell.appendChild(nameCourse);
           row.appendChild(nameCell);
 
           const creditsCell = document.createElement("td");
-          const creditCourse = document.createElement("input");
-          creditCourse.type = "number";
-          creditCourse.value = course.credits;
+          const creditCourse = document.createElement("label");
+          creditCourse.textContent = course.credits;
           creditsCell.appendChild(creditCourse);
           row.appendChild(creditsCell);
 
           const teacherCell = document.createElement("td");
-          const teacherCourse = document.createElement("input");
-          teacherCourse.type = "text";
-          if (course.teacher === undefined) {
-            teacherCourse.value = "Sin asignar"; 
+          const teacherCourse = document.createElement("label");
+          if (course.teacher === undefined || course.teacher === null) {
+            teacherCourse.textContent = "Sin asignar"; 
           } else {
-            teacherCourse.value =
+            teacherCourse.textContent =
               course.teacher.first_name + " " + course.teacher.last_name;
           }
           teacherCell.appendChild(teacherCourse);
@@ -264,7 +262,6 @@
       function completedUpdate(event) {
         // Lógica para manejar la respuesta del servidor después de actualizar el curso
         console.log("Curso actualizado:", event.target.responseText);
-        // Puedes realizar otras acciones aquí, como mostrar un mensaje de éxito o actualizar la tabla de cursos
         // Volver a obtener la lista de cursos después de actualizar uno
         getCourses();
       }
