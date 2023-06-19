@@ -72,6 +72,20 @@
     </style>
   </head>
   <body>
+    <div class="form-container">
+      <h2>Filtrar Cursos</h2>
+      <div class="form-group">
+        <label for="sortDirection">Dirección:</label>
+        <select id="sortDirection">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button onclick="getCoursesFilter()" id="filterButton">Filtrar</button>
+      </div>
+    </div>
+
     <div>
       <table id="coursesTable">
         <thead>
@@ -117,12 +131,22 @@
     </div>
 
     <script>
-      
       function getCourses() {
         const ajaxRequest = new XMLHttpRequest();
         ajaxRequest.addEventListener("load", completedGet);
         ajaxRequest.addEventListener("error", error);
         ajaxRequest.open("GET", "http://localhost:3001/api/courses");
+        ajaxRequest.send();
+      }
+
+      function getCoursesFilter() {
+        const sortSelector = document.querySelector("#sortDirection");
+        const sortDirection = sortSelector.value;
+
+        const ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.addEventListener("load", completedGet);
+        ajaxRequest.addEventListener("error", error);
+        ajaxRequest.open("GET", `http://localhost:3001/api/courses?sort=${sortDirection}`);
         ajaxRequest.send();
       }
 
@@ -155,7 +179,7 @@
           const teacherCell = document.createElement("td");
           const teacherCourse = document.createElement("label");
           if (course.teacher === undefined || course.teacher === null) {
-            teacherCourse.textContent = "Sin asignar"; 
+            teacherCourse.textContent = "Sin asignar";
           } else {
             teacherCourse.textContent =
               course.teacher.first_name + " " + course.teacher.last_name;
@@ -272,12 +296,11 @@
         const currentName = course.name;
         const currentCredits = course.credits;
         let currentTeacher;
-        if (course.teacher === undefined){
+        if (course.teacher === undefined) {
           currentTeacher = "Sin profesor";
         } else {
           currentTeacher = course.teacher._id;
         }
-
 
         // Crear un formulario para editar el curso
         const form = document.createElement("form");
