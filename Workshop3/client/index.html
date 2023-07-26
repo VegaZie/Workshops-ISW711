@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabla de Cursos</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Filtrar Cursos</h2>
+      <div class="form-group">
+        <label for="sortDirection">Dirección:</label>
+        <select id="sortDirection">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button onclick="getCoursesFilter()" id="filterButton">Filtrar</button>
+      </div>
+    </div>
+
+    <div>
+      <table id="coursesTable">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Créditos</th>
+            <th>Profesor</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="form-container">
+      <h2>Crear Curso</h2>
+      <div class="form-group">
+        <label for="nameInput">Nombre:</label>
+        <input type="text" id="nameInput" />
+      </div>
+      <div class="form-group">
+        <label for="creditsInput">Créditos:</label>
+        <input type="number" id="creditsInput" />
+      </div>
+      <div class="form-group">
+        <button id="createButton">Crear</button>
+      </div>
+    </div>
+
+    <div>
+      <h1>Tabla de Profesores</h1>
+      <table id="teachersTable">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cédula</th>
+            <th>Id</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
