@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 10px;
+  }
+  
+  main {
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .teacher-container,
+  .course-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+  
+  .card {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .card h3 {
+    margin: 0;
+  }
+  
+  .card p {
+    margin: 5px 0;
+  }
+  
+  @media (max-width: 768px) {
+    .teacher-container,
+    .course-container {
+      grid-template-columns: 1fr;
+    }
+  }
+  
